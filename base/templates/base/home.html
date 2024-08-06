@@ -5,9 +5,9 @@
     <div>
         {% for room in rooms%}
         <div>
-            <span>@{{room.host.username}}</span>
-            <a href="{% url 'room' room.id %}"><h5>{{room.id}} -- {{room.name}}</h5></a>
-            <small>{{room.topic}}</small>
+           
+            <h5><a class="btn" href="{% url 'room' room.id %}">{{room.name}}</a></h5>
+            <small class="circular-label">{{room.topic}}</small> ||  <span class="circular-label">@{{room.host.username}}</span>
             <hr>
         </div>
 
