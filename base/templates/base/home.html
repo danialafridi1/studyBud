@@ -1,8 +1,26 @@
 {% extends 'main.html' %}
 {% block content %}
-<main class="content">
-   <div>
+<div class="home-container">
+    <!-- left sidebar for topics -->
     <div>
+        <h3>Broswe Topics</h3>
+        <hr>
+        <div>
+            <a href="{% url 'home' %}">All</a>
+
+        </div>
+        {% for topic in topics %}
+        <div>
+            <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
+
+        </div>
+
+
+        {% endfor %}
+    </div>
+    <!-- right sidebar for rooms -->
+    <div>
+        <h5>{{room_count}} rooms available</h5>
         {% for room in rooms%}
         <div>
            
@@ -15,8 +33,10 @@
 
         {% endfor %}
     </div>
-   </div>
-</main>
+<div>
+    
+
+</div>
    {% endblock %}
 
 
