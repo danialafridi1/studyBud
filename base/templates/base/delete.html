@@ -10,7 +10,7 @@
         {% csrf_token %}
         <p>Are you sure you want to delete <span style="color: brown;">{{obj}}</span> ?</p>
         {% if request.META.HTTP_REFERER %}
-        <a  class="btn-update" href="{{ request.META.HTTP_REFERER }}" >Go back</a>
+        <a   href="{{ request.META.HTTP_REFERER }}" class="btn-update">Go back</a>
         {% endif %} 
         <input type="submit" value="Confirm" class="btn-delete">
     </form>

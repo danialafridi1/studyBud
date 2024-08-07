@@ -32,6 +32,9 @@ from django.contrib.auth.decorators import login_required
 #   ]
 
 def loginPage(request):
+    page = 'login'
+    if request.user.is_authenticated:
+        return redirect('home')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -47,12 +50,18 @@ def loginPage(request):
         else:
          messages.error(request,"Invalid credentials")
         
-    context={}
+    context={'page' :page}
     return render(request,'base/login_register.html',context)
 
 def logoutUser(request):
     logout(request)
     return redirect('home')
+
+def registerPage(request):
+   page = 'register'
+   context = {'page':page}
+   return render(request,'base/login_register.html',context)
+ 
 def home(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
@@ -81,6 +90,8 @@ def createRoom(request):
 def updateRoom(request,pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
+    if request.user != room.host:
+        return HTTPResponse("You are not allowed update this room ")
     if request.method == 'POST':
         form = RoomForm(request.POST, instance=room)
         if form.is_valid():
@@ -91,6 +102,8 @@ def updateRoom(request,pk):
 @login_required(login_url='login')
 def deleteRoom(request,pk):
     room = Room.objects.get(id=pk)
+    if request.user != room.host:
+        return HTTPResponse("You are not allowed update this room ")
     if request.method == 'POST':
         room.delete()
         return redirect('home')

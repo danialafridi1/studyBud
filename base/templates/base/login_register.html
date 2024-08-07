@@ -5,6 +5,7 @@
 
 
 
+{% if page == 'login' %}
 <div class="">
     <h1>Login</h1>
     <form action="" method="POST">
@@ -15,9 +16,20 @@
         <input type="password" name="password" placeholder="Enter password...." required>
         <input type="submit" value="Login" class="btn-update">
     </form>
-    <p>Don't have an account? <a href="#">Register</a></p>
+   
+    <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+</div>
+{% else %}
+
+<div class="">
+    <h1>Register</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+       
+        <input type="submit" value="Register" class="btn-update">
+    </form>
+    <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
 
 </div>
-
-
+{% endif %}
 {% endblock %}
