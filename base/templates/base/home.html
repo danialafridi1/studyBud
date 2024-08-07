@@ -7,7 +7,9 @@
         <div>
            
             <h5><a class="btn" href="{% url 'room' room.id %}">{{room.name}}</a></h5>
-            <small class="circular-label">{{room.topic}}</small> ||  <span class="circular-label">@{{room.host.username}}</span>
+            <small>{{room.topic}}</small> ||  <span >By: {{room.host.username}}</span>
+            || <a class="btn-update" href="{% url 'update_room' room.id %}">Edit</a>
+            || <a class="btn-delete" href="{% url 'delete_room' room.id %}">Delete</a>
             <hr>
         </div>
 
