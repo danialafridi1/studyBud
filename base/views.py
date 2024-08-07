@@ -3,33 +3,13 @@ from django.db.models import Q
 from django.http import HttpResponse as HTTPResponse
 from .models import Room,Topic
 from .forms import RoomForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages 
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
 
-# rooms = [
-#     {
-#         'id':1,
-#      'name':'Lets learn python',
-#      },
-#     {
-#         'id':2,
-#         'name':'Lets learn django',
-#      },
-#     {
-#         'id':3,
-#         'name':'Lets learn react',
-#      },
-#     {
-#         'id':4,
-#         'name':'Lets learn angular',
-#      },
-#     {
-#         'id':5,
-#         'name':'Lets learn vue',
-#      },
-#   ]
+
 
 def loginPage(request):
     page = 'login'
@@ -58,8 +38,10 @@ def logoutUser(request):
     return redirect('home')
 
 def registerPage(request):
+ 
    page = 'register'
-   context = {'page':page}
+   form = UserCreationForm()
+   context = {'page':page,'form':form}
    return render(request,'base/login_register.html',context)
  
 def home(request):
