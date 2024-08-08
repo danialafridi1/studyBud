@@ -16,7 +16,7 @@ def loginPage(request):
     if request.user.is_authenticated:
         return redirect('home')
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
         try :
             user = User.objects.get(username=username)
@@ -41,6 +41,17 @@ def registerPage(request):
  
    page = 'register'
    form = UserCreationForm()
+   if request.method == 'POST':
+       form = UserCreationForm(request.POST)
+       if form.is_valid():
+           user=  form.save(commit = False)
+           user.username = user.username.lower()
+           user.save()
+           login(request,user)
+           return redirect('login')
+       else:
+           messages.error(request,'Something went wrong during registration')
+
    context = {'page':page,'form':form}
    return render(request,'base/login_register.html',context)
  
@@ -55,8 +66,9 @@ def home(request):
 
 @login_required(login_url='login')
 def room(request,pk):
-    room = Room.objects.get(id=pk)  
-    context = {'room':room}
+    room = Room.objects.get(id=pk)
+    room_messages = room.message_set.all().order_by('-created_at')  
+    context = {'room':room,'room_messages':room_messages}
     return render(request,'base/room.html',context)
 @login_required(login_url='login')
 def createRoom(request):
