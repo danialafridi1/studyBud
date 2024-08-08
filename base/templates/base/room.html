@@ -1,5 +1,18 @@
 {% extends 'main.html' %}
 {% block content %}
+<style>
+    .room-container{
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        justify-content: space-between;
+        gap: 10px;
+    }
+</style>
+<div class="room-container">
+<div>
+
+
+
     <h1><span style="color: brown;">{{room.name}}</span></h1>
     <p>{{room.description}}</p>
 <div class="comment-wrapper">
@@ -7,9 +20,14 @@
  <hr>
  {% for message in room_messages %}
  <div>
-    <small>@{{message.user}}  {{message.created_at|timesince}} ago</small>
    
+    <small>@{{message.user}}  {{message.created_at|timesince}} ago</small>
+    {% if request.user == message.user %}
+    <a href="{% url 'delete_message' message.id %}" class="btn-update">Delete</a>
+
+    {% endif %}
     <p>{{message.body}}</p>
+
     <hr>
  </div>
 
@@ -26,6 +44,21 @@
  </div>
 
  {% endif %}
+</div>
+<!-- participtant div -->
+ <div>
+    <h3>Participants </h3>
+    <hr>
+    {% for participant in participtants %}
+   <div>
+    <p>@{{participant.username}}</p>
+
+ 
+   </div>
+    {% endfor %}
+    
+
+</div>
    {% endblock %}
 
 
