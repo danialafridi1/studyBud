@@ -5,6 +5,8 @@ class Topic(models.Model):
     name = models.CharField(max_length=200, blank=False)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        ordering = ['-updated_at', '-created_at']
      
     def __str__(self):
         return str(self.name)
@@ -15,7 +17,7 @@ class Room(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.SET_NULL,null=True)
     name = models.CharField(max_length=100, blank=False)
     description = models.TextField(null=True, blank=True)
-   # participants = models.IntegerField(default=0)
+    participants = models.ManyToManyField(User,related_name='participants',blank=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -32,6 +34,9 @@ class Message(models.Model):
      body = models.TextField()
      updated_at = models.DateTimeField(auto_now=True)
      created_at = models.DateTimeField(auto_now_add=True)
+
+     class Meta:
+        ordering = ['-updated_at', '-created_at']
      
      def __str__(self):
         return str(self.body[0:50])
