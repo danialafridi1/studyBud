@@ -11,62 +11,17 @@
 <div class="home-container">
     <!-- left sidebar for topics -->
     <div>
-        <h3>Broswe Topics</h3>
-        <hr>
-        <div>
-            <a href="{% url 'home' %}">All</a>
-
-        </div>
-        {% for topic in topics %}
-        <div>
-            <a href="{% url 'home' %}?q={{topic.name}}">{{topic.name}}</a>
-
-        </div>
-
-
-        {% endfor %}
+        {% include 'base/component/topics.html' %}
     </div>
     <!-- right sidebar for rooms -->
     <div>
-        <h5>{{room_count}} rooms available</h5>
-        {% for room in rooms%}
-        <div>
-           
-            <h5><a class="btn" href="{% url 'room' room.id %}">{{room.name}}</a></h5>
-            <small>{{room.topic}}</small> ||  <span >By: {{room.host.username}}</span>
-           {% if request.user == room.host %}
-           || <a class="btn-update" href="{% url 'update_room' room.id %}">Edit</a>
-            || <a class="btn-delete" href="{% url 'delete_room' room.id %}">Delete</a>
-           {% endif %}
-            
-            <hr>
-        </div>
-
-        {% endfor %}
+        {% include 'base/component/feed.html' %}
     </div>
 
     <!-- recent activity -->
-    <div>
-<h3>Recent Activity</h3>
-<hr>
-{% for message in room_messages %}
-<div>
-    <small>@{{message.user}} {{message.created_at|timesince}}</small>
-    
-    <small>replied to {{message.room}}</small>
-    
-    <p>{{message}}</p>
-   
-    {% if request.user == message.user %}
-    <hr>
-    <a href="{% url 'delete_message' message.id %}" class="btn-update">Delete</a>
-<hr>
-    {% endif %}
+     <div>
+   {% include 'base/component/activity.html' %}
 </div>
-
-{% endfor %}
-    </div>
-
 </div>
    {% endblock content %}
 
